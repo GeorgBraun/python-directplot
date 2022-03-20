@@ -38,7 +38,7 @@ The following functions are provided:
                    blocks execution until user closes the window.
 """
 
-__version__ = '0.2'
+__version__ = '0.2.1'
 __author__ = 'Georg Braun'
 
 import inspect as _inspect

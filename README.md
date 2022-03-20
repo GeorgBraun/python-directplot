@@ -64,9 +64,9 @@ Parameter:
 Example
 
 ```python
-spp.add(0, 0.1, 2.7)
-spp.add(1, 1.1, 7.3, False)
-spp.add(1, 1.2, 7.2)
+dp.add(0, 0.1, 2.7)
+dp.add(1, 1.1, 7.3, False)
+dp.add(1, 1.2, 7.2)
 ```
 
 ### clear()
@@ -82,7 +82,7 @@ clear()
 Example
 
 ```python
-spp.clear()
+dp.clear()
 ```
 
 ### close()
@@ -96,7 +96,7 @@ close()
 Example
 
 ```python
-spp.close()
+dp.close()
 ```
 
 
@@ -118,19 +118,19 @@ Parameter
 Example
 
 ```python
-spp.init()
+dp.init()
 ```
 
 or 
 
 ```python
-spp.init(["Results"])
+dp.init(["Results"])
 ```
 
 or
 
 ```python
-spp.init(["Height", "Speed", "Forces"], 2, False)
+dp.init(["Height", "Speed", "Forces"], 2, False)
 ```
 
 
@@ -153,7 +153,7 @@ Parameter
 Example
 
 ```python
-spp.label(0, "mass in kg")
+dp.label(0, "mass in kg")
 ```
 
 
@@ -172,10 +172,10 @@ refresh()
 Example
 
 ```python
-spp.add(0, 0.1, 7.3, False)
-spp.add(0, 0.2, 6.9, False)
-spp.add(0, 0.3, 2.1, False)
-spp.refresh()
+dp.add(0, 0.1, 7.3, False)
+dp.add(0, 0.2, 6.9, False)
+dp.add(0, 0.3, 2.1, False)
+dp.refresh()
 ```
 
 
@@ -198,13 +198,13 @@ Parameter
 Example
 
 ```python
-spp.showMarker()
+dp.showMarker()
 ```
 
 or
 
 ```python
-spp.showMarker(False, 1)
+dp.showMarker(False, 1)
 ```
 
 
@@ -227,7 +227,7 @@ Parameter
 Example
 
 ```python
-spp.title(0, "Simulated Values")
+dp.title(0, "Simulated Values")
 ```
 
 
@@ -249,13 +249,13 @@ Parameter
 Example
 
 ```python
-spp.waitforclose()
+dp.waitforclose()
 ```
 
 or
 
 ```python
-spp.waitforclose("PLEASE CLOSE THIS WINDOW")
+dp.waitforclose("PLEASE CLOSE THIS WINDOW")
 ```
 
 
@@ -280,7 +280,7 @@ Parameter
 Example
 
 ```python
-spp.xylabel(0, "time in s", "force in N")
+dp.xylabel(0, "time in s", "force in N")
 ```
 
 
