@@ -50,6 +50,8 @@ Functions are listed alphabetical order. Unless otherwise noted, the return type
 
 Adds a single point to a plot line.
 
+If the number of points per plot line exceeds `maxPoints` (see [`init()`](#init)), the oldest point is removed automatically, resulting in a scroll behavior of the plots.
+
 ```python
 add(id, x, y, refresh=True)
 ```
@@ -105,7 +107,7 @@ dp.close()
 Initializes and opens a Single Point Plot window.
 
 ```python
-init(titles=['Single-Point-Plot'], linesPerSubplot=4, showMarker=True)
+init(titles=['Single-Point-Plot'], linesPerSubplot=4, showMarker=True, maxPoints=10000)
 ```
 
 Parameter
@@ -113,7 +115,8 @@ Parameter
 * `titles` (list(str)) – A list or tuple containing 1 to 3 strings, resulting in 1 to 3 sub-plots on the plot window. Optional with a default title for a single sub-plot.
 * `linesPerSubplot` (int) – Number of lines (data series) per sub-plot. Optional with default `4`
 * `showMarker` (bool) – Determines if data points are emphasized with a little dot. Optional with default `True`
-
+* `maxPoints` (int) - Maximum number of data points per line (data series). Optional with default 10000<br>
+  If the number of points per plot line exceeds `maxPoints`, the oldest point is removed automatically, resulting in a scroll behavior of the plots.
 
 Example
 
@@ -130,7 +133,13 @@ dp.init(["Results"])
 or
 
 ```python
-dp.init(["Height", "Speed", "Forces"], 2, False)
+dp.init(["Height", "Speed", "Forces"], linesPerSubplot=2, showMarker=False)
+```
+
+or
+
+```python
+dp.init(["Temperature °C", "Pressure mbar", "Humidity %"], linesPerSubplot=1,  maxPoints=100)
 ```
 
 
@@ -311,6 +320,8 @@ python -m build
 ```
 
 Upload package to pypi:
+
+Before uploading, delete outdated build artifacts in the `dist` folder, such that only the latest build files are uploaded.
 
 ```
 twine upload dist/*

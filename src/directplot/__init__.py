@@ -38,7 +38,7 @@ The following functions are provided:
                    blocks execution until user closes the window.
 """
 
-__version__ = '0.2.1'
+__version__ = '0.3.0'
 __author__ = 'Georg Braun'
 
 import inspect as _inspect
@@ -46,7 +46,7 @@ from typing import Sequence as _Sequence
 from .directplot import __DirectPlot
 
 
-def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, showMarker: bool = True) -> None:
+def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, showMarker: bool = True, maxPoints: int = 10000) -> None:
     """Initializes and opens a Direct Plot window.
 
     Parameters:
@@ -54,6 +54,7 @@ def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, sho
     * titles: A list or tuple containing 1 to 3 strings, resulting in 1 to 3 sub-plots on the plot window. Optional with a default title for a single sub-plot.
     * linesPerSubplot: Number of lines (data series) per sub-plot. Optional with default 4
     * showMarker: Determines if data points are emphasized with a little dot. Optional with default True
+    * maxPoints: Maximum number of data points per line (data series). Optional with default 10000
 
     Returns:
     --------
@@ -71,7 +72,7 @@ def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, sho
     global __dp
     if __dp is not None:
         raise Exception(f"ERROR in directplot.{_inspect.currentframe().f_code.co_name}(): YOU HAVE CALLED {_inspect.currentframe().f_code.co_name}() TOO OFTEN!")
-    __dp = __DirectPlot(titles, linesPerSubplot, showMarker)
+    __dp = __DirectPlot(titles, linesPerSubplot, showMarker, maxPoints)
 
 
 
