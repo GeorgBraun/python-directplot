@@ -55,9 +55,7 @@ class __DirectPlot:
             self.axs[i].legend(loc='upper right')
         
         _plt.tight_layout()
-        _plt.pause(0.001)
-        # self.fig.canvas.draw_idle()
-        # self.fig.canvas.start_event_loop(0.001)
+        self._redraw()
 
     def close(self) -> None:
         try:
@@ -72,7 +70,7 @@ class __DirectPlot:
 
     def waitforclose(self, msg: str = None) -> None:
         self.fig.canvas.set_window_title(msg or " "+5*" ===== DONE - PLEASE CLOSE THIS WINDOW "+"=====")
-        _plt.pause(0.001)
+        self._redraw()
         _plt.ioff()
         _plt.show()
         del(self.xDeques)
@@ -96,18 +94,14 @@ class __DirectPlot:
             ax_idx = id // self.linesPerSubplot
             self.axs[ax_idx].relim()
             self.axs[ax_idx].autoscale_view()
-            _plt.pause(0.001)
-            # self.fig.canvas.draw_idle()
-            # self.fig.canvas.start_event_loop(0.001)
+            self._redraw()
 
     def refresh(self) -> None:
         try:
             for ax in self.axs:
                 ax.relim()
                 ax.autoscale_view()
-            _plt.pause(0.001)
-            # self.fig.canvas.draw_idle()
-            # self.fig.canvas.start_event_loop(0.001)
+            self._redraw()
         except AttributeError:
             raise Exception(f"ERROR in directplot.{_inspect.currentframe().f_code.co_name}(): NO PLOT-WINDOW AVAILABLE. DID YOU ALREADY CLOSE IT?")
     
@@ -127,7 +121,7 @@ class __DirectPlot:
             ax_idx = id // self.linesPerSubplot
             self.axs[ax_idx].legend(loc='upper right')
         # Der Einfachheit halber den ganzen Plot aktualisieren:
-        _plt.pause(0.001)
+        self._redraw()
 
     def label(self, id: int, label: str) -> None:
         if id<0 or id>=len(self.lines2d):
@@ -135,7 +129,7 @@ class __DirectPlot:
         self.lines2d[id].set_label(label)
         ax_idx = id // self.linesPerSubplot
         self.axs[ax_idx].legend(loc='upper right')
-        _plt.pause(0.001)
+        self._redraw()
 
     def title(self, id: int, title: str) -> None:
         if id<0 or id>=len(self.lines2d):
@@ -143,7 +137,7 @@ class __DirectPlot:
         ax_idx = id // self.linesPerSubplot
         self.axs[ax_idx].set_title(title)
         self.titles[ax_idx] = title
-        _plt.pause(0.001)
+        self._redraw()
 
     def xylabel(self, id: int, xlabel: str, ylabel: str) -> None:
         if id<0 or id>=len(self.lines2d):
@@ -151,5 +145,13 @@ class __DirectPlot:
         ax_idx = id // self.linesPerSubplot
         self.axs[ax_idx].set_xlabel(xlabel)
         self.axs[ax_idx].set_ylabel(ylabel)
-        _plt.pause(0.001)
+        self._redraw()
 
+    def _redraw(self) -> None:
+        #print('.', end='', flush=True)
+        #_plt.pause(0.001)
+        # Source: https://matplotlib.org/stable/users/explain/interactive_guide.html#explicitly-spinning-the-event-loop
+        self.fig.canvas.draw_idle()    # Python-Docu: Request a widget redraw once control returns to the GUI event loop.
+        self.fig.canvas.flush_events() # Python-Docu: This will run the GUI event loop until all UI events currently waiting have been processed.
+        # self.fig.canvas.draw()       # Python-Docu: It is important that this method actually walk the artist tree even if not output is produced
+        # self.fig.canvas.start_event_loop(0.001)
