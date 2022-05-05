@@ -38,13 +38,14 @@ The following functions are provided:
                    blocks execution until user closes the window.
 """
 
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 __author__ = 'Georg Braun'
 
 import inspect as _inspect
 from typing import Sequence as _Sequence
 from .directplot import __DirectPlot
-
+import platform as _platform
+import matplotlib.pyplot as _plt
 
 def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, showMarker: bool = True, maxPoints: int = 10000) -> None:
     """Initializes and opens a Direct Plot window.
@@ -402,5 +403,25 @@ def _test3() -> None:
     close()
 
 
+def onImport():
+    print(f'directplot v{__version__} started with backend {_plt.get_backend()}')
+    handleBackend()
+    print()
+
+def handleBackend():
+    if _platform.system().lower() == 'darwin':
+        targetBackend = 'TkAgg'
+        print(f'Seems like MacOS. Trying to switch backend to {targetBackend}')
+        try:
+            _plt.switch_backend(targetBackend)
+        except Exception as exceptionDetails:
+            print(f'ERROR: Could not switch to {targetBackend}! Details:')
+            print(f'{exceptionDetails}')
+            print()
+            print(f'Will try with current backend {_plt.get_backend()}')
+        else:
+            print(f'Successfully switched to backend {_plt.get_backend()}')
+
 
 __dp = None
+onImport()
