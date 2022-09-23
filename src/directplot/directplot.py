@@ -69,7 +69,7 @@ class __DirectPlot:
             raise Exception(f"ERROR in directplot.{_inspect.currentframe().f_code.co_name}(): NO PLOT-WINDOW AVAILABLE. DID YOU ALREADY CLOSE IT?")
 
     def waitforclose(self, msg: str = None) -> None:
-        self.fig.canvas.set_window_title(msg or " "+5*" ===== DONE - PLEASE CLOSE THIS WINDOW "+"=====")
+        self.fig.canvas.manager.set_window_title(msg or " "+5*" ===== DONE - PLEASE CLOSE THIS WINDOW "+"=====")
         self._redraw()
         _plt.ioff()
         _plt.show()
