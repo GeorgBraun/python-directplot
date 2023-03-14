@@ -39,7 +39,7 @@ The following functions are provided:
 * [`refresh()`](#refresh) Refreshes the contents of the plot window
 * [`close()`](#close) Closes the Direct Plot window
 * [`clear()`](#clear) Deletes the contents of the plot window
-* [`waitforclose()`](#waitforclose) Displays a new window title on the plot window and blocks execution until user closes the window.
+* [`waitforclose()`](#waitforclose) Updates the title on the plot window and blocks execution until user closes the plot window.
 
 ## API
 
@@ -107,7 +107,7 @@ dp.close()
 Initializes and opens a Single Point Plot window.
 
 ```python
-init(titles=['Single-Point-Plot'], linesPerSubplot=4, showMarker=True, maxPoints=10000)
+init(titles=['Single-Point-Plot'], linesPerSubplot=4, showMarker=True, maxPoints=10000, grid: bool = True)
 ```
 
 Parameter
@@ -117,6 +117,7 @@ Parameter
 * `showMarker` (bool) – Determines if data points are emphasized with a little dot. Optional with default `True`
 * `maxPoints` (int) - Maximum number of data points per line (data series). Optional with default 10000<br>
   If the number of points per plot line exceeds `maxPoints`, the oldest point is removed automatically, resulting in a scroll behavior of the plots.
+* `grid` (bool): Display plot grid. Optional with default True
 
 Example
 
@@ -243,7 +244,7 @@ dp.title(0, "Simulated Values")
 
 ### waitforclose()
 
-Displays a new window title on the plot window and blocks execution until user closes the window.
+Updates the title on the plot window and blocks execution until user closes the plot window.
 
 ```python
 waitforclose(msg=None)
@@ -252,7 +253,7 @@ waitforclose(msg=None)
 
 Parameter
 
-* `msg` (str) – A string to be shown on the window title. Optional with default `None` resulting in a standard title
+* `msg` (str) – A string to be shown on the window title and on stdout. Optional with default `None` resulting in a standard title
 
 
 Example
@@ -264,7 +265,7 @@ dp.waitforclose()
 or
 
 ```python
-dp.waitforclose("PLEASE CLOSE THIS WINDOW")
+dp.waitforclose("PLEASE CLOSE THE DIRECT PLOT WINDOW")
 ```
 
 

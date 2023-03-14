@@ -34,11 +34,11 @@ The following functions are provided:
 * `refresh()` Refreshes the contents of the plot window
 * `close()` Closes the Direct Plot window
 * `clear()` Deletes the contents of the plot window
-* `waitforclose()` Displays a new window title on the plot window and
-                   blocks execution until user closes the window.
+* `waitforclose()` Updates the title on the plot window and
+                   blocks execution until user closes the plot window.
 """
 
-__version__ = '0.4.2'
+__version__ = '0.5.0'
 __author__ = 'Georg Braun'
 
 import inspect as _inspect
@@ -47,7 +47,7 @@ from .directplot import __DirectPlot
 import platform as _platform
 import matplotlib.pyplot as _plt
 
-def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, showMarker: bool = True, maxPoints: int = 10000) -> None:
+def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, showMarker: bool = True, maxPoints: int = 10000, grid: bool = True) -> None:
     """Initializes and opens a Direct Plot window.
 
     Parameters:
@@ -56,6 +56,7 @@ def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, sho
     * linesPerSubplot: Number of lines (data series) per sub-plot. Optional with default 4
     * showMarker: Determines if data points are emphasized with a little dot. Optional with default True
     * maxPoints: Maximum number of data points per line (data series). Optional with default 10000
+    * grid: Display plot grid. Optional with default True
 
     Returns:
     --------
@@ -66,14 +67,14 @@ def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, sho
     ```
     dp.init()
     dp.init(["Results"])
-    dp.init(["Height", "Speed", "Forces"], 2, False)
+    dp.init(["Height", "Speed", "Forces"], linesPerSubplot=2, showMarker=False)
     ```
     """
 
     global __dp
     if __dp is not None:
         raise Exception(f"ERROR in directplot.{_inspect.currentframe().f_code.co_name}(): YOU HAVE CALLED {_inspect.currentframe().f_code.co_name}() TOO OFTEN!")
-    __dp = __DirectPlot(titles, linesPerSubplot, showMarker, maxPoints)
+    __dp = __DirectPlot(titles, linesPerSubplot, showMarker, maxPoints, grid)
 
 
 
@@ -117,11 +118,11 @@ def clear() -> None:
 
 
 def waitforclose(msg: str = None) -> None:
-    """Displays a new window title on the plot window and blocks execution until user closes the window.
+    """Updates the title on the plot window and blocks execution until user closes the plot window.
 
     Parameters:
     -----------
-    * msg: A string to be shown on the window title. Optional with default None resulting in a standard title
+    * msg: A string to be shown on the window title and on stdout. Optional with default None resulting in a standard title
 
     Returns:
     --------
@@ -131,7 +132,7 @@ def waitforclose(msg: str = None) -> None:
     ---------
     ```
     dp.waitforclose()
-    dp.waitforclose("PLEASE CLOSE THIS WINDOW")
+    dp.waitforclose("PLEASE CLOSE THE DIRECT PLOT WINDOW")
     ```
     """
 

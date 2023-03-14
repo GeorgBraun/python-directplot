@@ -7,8 +7,8 @@ from typing import Sequence as _Sequence
 class __DirectPlot:
     """Internal class used for the internal singleton object __dp"""
 
-    def __init__(self, titles: _Sequence[str], linesPerSubplot: int = 4, showMarker: bool = True, maxPoints: int = 10000) -> None:
-        self._create(titles, linesPerSubplot, showMarker, maxPoints)
+    def __init__(self, titles: _Sequence[str], linesPerSubplot: int = 4, showMarker: bool = True, maxPoints: int = 10000, grid: bool = True) -> None:
+        self._create(titles, linesPerSubplot, showMarker, maxPoints, grid)
 
     # At this time, it is better not to have a destructor.
     # Reason: The implementation below seems to cause additional exceptions
@@ -16,7 +16,7 @@ class __DirectPlot:
     # def __del__(self) -> None:
     #     self.close()
 
-    def _create(self, titles: _Sequence[str], linesPerSubplot: int = 4, showMarker: bool = True, maxPoints: int = 10000) -> None:
+    def _create(self, titles: _Sequence[str], linesPerSubplot: int = 4, showMarker: bool = True, maxPoints: int = 10000, grid: bool = True) -> None:
         if isinstance(titles, str):
             titles = (titles, )
         
@@ -53,6 +53,8 @@ class __DirectPlot:
                 self.lines2d.append(line2d)
 
             self.axs[i].legend(loc='upper right')
+            if grid==True:
+                self.axs[i].grid(linestyle='dotted')
         
         _plt.tight_layout()
         self._redraw()
@@ -69,6 +71,7 @@ class __DirectPlot:
             raise Exception(f"ERROR in directplot.{_inspect.currentframe().f_code.co_name}(): NO PLOT-WINDOW AVAILABLE. DID YOU ALREADY CLOSE IT?")
 
     def waitforclose(self, msg: str = None) -> None:
+        print(msg or 'DirectPlot: Done - please close the DirectPlot window.')
         self.fig.canvas.manager.set_window_title(msg or " "+5*" ===== DONE - PLEASE CLOSE THIS WINDOW "+"=====")
         self._redraw()
         _plt.ioff()
