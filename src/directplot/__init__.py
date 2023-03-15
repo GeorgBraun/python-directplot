@@ -38,7 +38,7 @@ The following functions are provided:
                    blocks execution until user closes the plot window.
 """
 
-__version__ = '0.5.0'
+__version__ = '0.5.1'
 __author__ = 'Georg Braun'
 
 import inspect as _inspect
@@ -410,9 +410,12 @@ def onImport():
     print()
 
 def handleBackend():
-    if _platform.system().lower() == 'darwin':
-        targetBackend = 'TkAgg'
-        print(f'Seems like MacOS. Trying to switch backend to {targetBackend}')
+    # We try to use TkAgg not only for MacOS but in general, especially also for Windows.
+    #if _platform.system().lower() == 'darwin':
+    targetBackend = 'TkAgg'
+    if _plt.get_backend().lower() != targetBackend.lower():
+        #print(f'Seems like MacOS. Trying to switch backend to {targetBackend}')
+        print(f'Trying to switch backend to {targetBackend}')
         try:
             _plt.switch_backend(targetBackend)
         except Exception as exceptionDetails:
