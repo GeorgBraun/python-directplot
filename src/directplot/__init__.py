@@ -38,13 +38,12 @@ The following functions are provided:
                    blocks execution until user closes the plot window.
 """
 
-__version__ = '0.5.1'
+__version__ = '0.5.2'
 __author__ = 'Georg Braun'
 
 import inspect as _inspect
 from typing import Sequence as _Sequence
 from .directplot import __DirectPlot
-import platform as _platform
 import matplotlib.pyplot as _plt
 
 def init(titles: _Sequence[str] = ["Direct-Plot"], linesPerSubplot: int = 4, showMarker: bool = True, maxPoints: int = 10000, grid: bool = True) -> None:
@@ -405,26 +404,35 @@ def _test3() -> None:
 
 
 def onImport():
-    print(f'directplot v{__version__} started with backend {_plt.get_backend()}')
     handleBackend()
     print()
 
+
 def handleBackend():
-    # We try to use TkAgg not only for MacOS but in general, especially also for Windows.
-    #if _platform.system().lower() == 'darwin':
-    targetBackend = 'TkAgg'
-    if _plt.get_backend().lower() != targetBackend.lower():
-        #print(f'Seems like MacOS. Trying to switch backend to {targetBackend}')
-        print(f'Trying to switch backend to {targetBackend}')
-        try:
-            _plt.switch_backend(targetBackend)
-        except Exception as exceptionDetails:
-            print(f'ERROR: Could not switch to {targetBackend}! Details:')
-            print(f'{exceptionDetails}')
-            print()
-            print(f'Will try with current backend {_plt.get_backend()}')
-        else:
-            print(f'Successfully switched to backend {_plt.get_backend()}')
+    initialBackend = _plt.get_backend()
+    targetBackends = ['TkAgg', 'GTK3Agg'] # Currently best for Windows, MacOS and Linux
+    targetBackendsLower = [tbe.lower() for tbe in targetBackends]
+
+    print(f'directplot v{__version__} with backend {initialBackend}', end='', flush=True)
+
+    # Test if we have one of the target backends:
+    if initialBackend.lower() in targetBackendsLower:
+        # Yes. All fine. Just end current line with a new line
+        print('', flush=True)
+    else:
+        # No. Let's try to switch to one of the targetBackends:
+        for targetBackend in targetBackends:
+            print(f' > {targetBackend}', end='', flush=True)
+            try:
+                _plt.switch_backend(targetBackend)
+            except Exception as exceptionDetails:
+                # Switch did not succeed:
+                print(f' ({exceptionDetails}) > {_plt.get_backend()}', end='', flush=True)
+            else:
+                # Switch succeeded, we are done.
+                break
+        # End current line with a new line.
+        print('', flush=True)
 
 
 __dp = None
